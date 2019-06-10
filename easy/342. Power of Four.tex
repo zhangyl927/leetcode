@@ -1,0 +1,69 @@
+给定一个整数 (32 位有符号整数)，请编写一个函数来判断它是否是 4 的幂次方。
+
+示例 1:
+
+输入: 16
+输出: true
+示例 2:
+
+输入: 5
+输出: false
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+一直除以 4， 看最后结果是否等于 1。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    bool isPowerOfFour(int num) {
+        while(num > 1)
+        {
+            if(num % 4 != 0) return false;
+            num /= 4;
+        }
+        return num == 1;
+    }
+};

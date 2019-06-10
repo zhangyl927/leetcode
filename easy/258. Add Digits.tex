@@ -1,0 +1,111 @@
+给定一个非负整数 num，反复将各个位上的数字相加，直到结果为一位数。
+
+示例:
+
+输入: 38
+输出: 2 
+解释: 各位相加的过程为：3 + 8 = 11, 1 + 1 = 2。 由于 2 是一位数，所以返回 2。（代码可以优化）
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+设计计算 num 位数的函数，当位数小于 9 时即为结果，否则递归。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+优化code：
+class Solution {
+public:
+    int addDigits(int num) {
+        if(num < 10) return num;
+        int result = 0;
+        while(num)
+        {
+            result += num % 10;
+            num /= 10;
+        }
+        return addDigits(result);
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+原code：
+class Solution {
+public:
+    int addDigits(int num) {
+        int time = getCount(num);
+        return getResult(num, time);
+    }
+    int getCount(int num)
+    {
+        int count = 0;
+        while(num)
+        {
+            num /= 10;
+            count++;
+        }
+        return count;
+    }
+    int getResult(int num, int time)
+    {
+        int Result = 0;
+        while(time--)
+        {
+            Result += num % 10;
+            num /= 10;
+        }
+        if(Result > 9)
+            return getResult(Result, getCount(Result));
+        else return Result;
+    }
+};

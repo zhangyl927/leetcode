@@ -1,0 +1,136 @@
+删除链表中等于给定值 val 的所有节点。
+
+示例:
+
+输入: 1->2->6->3->4->5->6, val = 6
+输出: 1->2->3->4->5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+1.考虑链表头的值为 val 的情况
+2.若该节点的值等于 val，当前指针指向不变，指向的下一个位置后移一位；
+3.删除的节点空间是否可以释放；
+优化：
+将表头的值为 val 作为分析2中的一种情况。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        if(!head) return NULL;
+        
+        while(head && head->val == val)
+            head = head->next;
+        ListNode* p = head;
+        
+        while(p && p->next)
+        {
+            if(p->next->val == val)
+            {
+                ListNode* temp = p->next;
+                p->next = temp->next;
+                delete temp;
+            }
+            else p = p->next;
+        }
+        return head;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+优化code：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        if(!head) return NULL;
+        ListNode* p = head;
+        
+        while(p)
+        {
+            if(p && p->val == val)
+            {
+                head = head->next;
+                p = p->next;
+            }
+            else if(p->next && p->next->val == val)
+            {
+                ListNode* temp = p->next;
+                p->next = temp->next;
+                delete temp;
+            }
+            else p = p->next;
+        }
+        return head;
+    }
+};
