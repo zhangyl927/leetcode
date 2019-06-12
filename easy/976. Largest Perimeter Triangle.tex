@@ -1,0 +1,103 @@
+给定由一些正数（代表长度）组成的数组 A，返回由其中三个长度组成的、面积不为零的三角形的最大周长。
+
+如果不能形成任何面积不为零的三角形，返回 0。
+
+ 
+
+示例 1：
+
+输入：[2,1,2]
+输出：5
+示例 2：
+
+输入：[1,2,1]
+输出：0
+示例 3：
+
+输入：[3,2,3,4]
+输出：10
+示例 4：
+
+输入：[3,6,2,3]
+输出：8
+ 
+
+提示：
+
+3 <= A.length <= 10000
+1 <= A[i] <= 10^6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+排列，从最大的三个数开始，若此三个数可以形成三角形，则返回 三个数的和。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code:
+class Solution {
+public:
+    int largestPerimeter(vector<int>& A) {
+        sort(A.begin(), A.end());
+        for(int i = A.size()-1; i >= 2; i--)
+        {
+            if(judge_triangle(A[i], A[i-1], A[i-2]))
+                return judge_triangle(A[i], A[i-1], A[i-2]);
+        }
+        return 0;
+    }
+    int judge_triangle(int a, int b, int c)
+    {
+        if(a + b <= c || a + c <= b || b + c <= a)
+            return 0;
+        else return a+b+c;
+    }
+};

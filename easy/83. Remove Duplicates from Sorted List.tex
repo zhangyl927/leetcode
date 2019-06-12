@@ -1,0 +1,98 @@
+给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。
+
+示例 1:
+
+输入: 1->1->2
+输出: 1->2
+示例 2:
+
+输入: 1->1->2->3->3
+输出: 1->2->3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+使用双指针，前指针 first 和 后指针 second，移动两个指针，当 first->val = second->val 时，first 指针指向下一个位置，second 指针下一个指向 first。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        if(!head) return NULL;
+        ListNode* first = head->next;
+        ListNode* second = head;
+        while(first)
+        {
+            // 当 前指针的值 等于 后指针指向的值时，去掉当前的节点
+            if(first->val == second->val)
+            {
+                first = first->next;
+                second->next = first;
+            }
+            else
+            {
+                first = first->next;
+                second = second->next;
+            }
+        }
+        return head;
+    }
+};

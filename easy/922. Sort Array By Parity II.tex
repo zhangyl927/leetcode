@@ -1,0 +1,104 @@
+给定一个非负整数数组 A， A 中一半整数是奇数，一半整数是偶数。
+
+对数组进行排序，以便当 A[i] 为奇数时，i 也是奇数；当 A[i] 为偶数时， i 也是偶数。
+
+你可以返回任何满足上述条件的数组作为答案。
+
+ 
+
+示例：
+
+输入：[4,2,5,7]
+输出：[4,5,2,7]
+解释：[4,7,2,5]，[2,5,4,7]，[2,7,4,5] 也会被接受。
+ 
+
+提示：
+
+2 <= A.length <= 20000
+A.length % 2 == 0
+0 <= A[i] <= 1000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+创建一个 奇数容器 odd，一个偶数容器 even，遍历 A 将奇数放入 odd 中，将偶数放入 even 中。
+最后将 odd 和 even 合并到一个容器中；
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    vector<int> sortArrayByParityII(vector<int>& A) {
+        vector<int> odd;
+        vector<int> even;
+        vector<int> res;
+        for(int i = 0; i < A.size(); i++)
+        {
+            if(A[i] % 2 == 0)
+                even.push_back(A[i]);
+            else odd.push_back(A[i]);
+        }
+        for(int j = 0; j < even.size(); j++)
+        {
+            res.push_back(even[j]);
+            res.push_back(odd[j]);
+        }
+        return res;
+    }
+};

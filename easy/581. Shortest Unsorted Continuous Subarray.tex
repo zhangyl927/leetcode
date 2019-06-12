@@ -1,0 +1,98 @@
+给定一个整数数组，你需要寻找一个连续的子数组，如果对这个子数组进行升序排序，那么整个数组都会变为升序排序。
+
+你找到的子数组应是最短的，请输出它的长度。
+
+示例 1:
+
+输入: [2, 6, 4, 8, 10, 9, 15]
+输出: 5
+解释: 你只需要对 [6, 4, 8, 10, 9] 进行升序排序，那么整个表都会变为升序排序。
+说明 :
+
+输入的数组长度范围在 [1, 10,000]。
+输入的数组可能包含重复元素 ，所以升序的意思是<=。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+对原数组排序，若排序后与原来一致，则为 0。若不一致，从前往后比较，记第一个不同的位置为 begin；从后往前比较，记第一个不同的位置为 end；
+end - begin + 1 即为结果。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+        vector<int> res = nums;
+        sort(res.begin(), res.end());
+        if(res == nums) return 0;
+        else
+        {
+            int begin = 0;
+            int end = 0;
+            for(int i = 0; i < res.size(); i++)
+            {
+                if(nums[i] != res[i])
+                {
+                    begin = i;break;
+                }
+            }
+            for(int j = res.size()-1; j > 0; j--)
+            {
+                if(nums[j] != res[j])
+                {
+                    end = j;break;
+                }
+            }
+            return end-begin+1;
+        }    
+    }
+};
