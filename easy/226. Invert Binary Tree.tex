@@ -34,7 +34,7 @@
 
 
 思路：
-1.  交换节点的左子树和右子树。
+1. 交换节点的左子树和右子树。
 2. BFS。
 
 
@@ -54,7 +54,7 @@
 
 
 
-code1：
+code1-1：
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -99,6 +99,46 @@ public:
 
 
 
+code1-2：
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        invert(root);
+        return root;
+    }
+    void invert(TreeNode* Node)
+    {
+        if(!Node) return;
+        swap(Node->left, Node->right);
+        invert(Node->left);
+        invert(Node->right);
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -119,21 +159,20 @@ code2:
 class Solution {
 public:
     TreeNode* invertTree(TreeNode* root) {
-        if(!root) return NULL;
+        if(!root) return root;
         queue<TreeNode*> myQueue;
         myQueue.push(root);
         while(!myQueue.empty())
         {
-            TreeNode* current = myQueue.front();
+            TreeNode* node = myQueue.front();
+            TreeNode* temp = node->left;
+            node->left = node->right;
+            node->right = temp;
             
-            TreeNode *Temp = current->left;
-            current->left = current->right;
-            current->right = Temp;
+            if(node->left) myQueue.push(node->left);
+            if(node->right) myQueue.push(node->right);
             
             myQueue.pop();
-            
-            if(current->left) myQueue.push(current->left);
-            if(current->right) myQueue.push(current->right);
         }
         return root;
     }

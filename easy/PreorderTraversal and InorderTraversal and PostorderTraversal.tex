@@ -1,0 +1,20 @@
+Preorder：
+	visit(Node);
+	traversal(Node->left);
+	traversal(Node->right);
+
+
+
+Inorder:
+	traversal(Node->left);
+	visit(Node);
+	traversal(Node->right);
+
+
+
+
+Postorder：
+	traversal(Node->left);
+	traversal(Node->right);
+	res.push_back(Node->val);
+

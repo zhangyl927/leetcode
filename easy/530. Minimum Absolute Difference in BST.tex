@@ -1,0 +1,97 @@
+给定一个所有节点为非负值的二叉搜索树，求树中任意两节点的差的绝对值的最小值。
+
+示例 :
+
+输入:
+
+   1
+    \
+     3
+    /
+   2
+
+输出:
+1
+
+解释:
+最小绝对差为1，其中 2 和 1 的差的绝对值为 1（或者 2 和 3）。
+
+注意: 树中至少有2个节点。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+中序遍历树，结果存放在容器中。求相邻两个差值最小的即为结果。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int getMinimumDifference(TreeNode* root) {
+        vector<int> res;
+        traversal(root, res);
+        int min = 9999;
+        for(int i = 1; i < res.size(); i++)
+        {
+            if(res[i] - res[i-1] < min)
+                min = res[i] - res[i-1];
+        }
+        return min;
+    }
+    void traversal(TreeNode* Node, vector<int>& res)
+    {
+        if(!Node) return;
+        traversal(Node->left, res);
+        res.push_back(Node->val);
+        traversal(Node->right, res);
+    }
+};

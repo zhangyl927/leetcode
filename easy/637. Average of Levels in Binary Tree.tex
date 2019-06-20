@@ -1,0 +1,106 @@
+给定一个非空二叉树, 返回一个由每层节点平均值组成的数组.
+
+示例 1:
+
+输入:
+    3
+   / \
+  9  20
+    /  \
+   15   7
+输出: [3, 14.5, 11]
+解释:
+第0层的平均值是 3,  第1层是 14.5, 第2层是 11. 因此返回 [3, 14.5, 11].
+
+注意：
+
+    节点值的范围在32位有符号整数范围内。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+102题层次遍历。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<double> averageOfLevels(TreeNode* root) {
+        vector<vector<int>> res;
+        vector<double> result;
+        leveltraversal(root, 0, res);
+        for(int i = 0; i < res.size(); i++)
+        {
+            double temp = 0;
+            for(int j = 0; j < res[i].size(); j++)
+            {
+                temp += res[i][j];
+            }
+            result.push_back(temp/res[i].size());
+        }
+        return result;
+    }
+    void leveltraversal(TreeNode* Node, int depth, vector<vector<int>>& res)
+    {
+        if(!Node) return;
+        if(res.size() == depth)
+            res.resize(depth+1);
+        res[depth].push_back(Node->val);
+        leveltraversal(Node->left, depth+1, res);
+        leveltraversal(Node->right, depth+1, res);
+    }
+};
