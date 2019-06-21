@@ -1,0 +1,106 @@
+给定一个非负索引 k，其中 k ≤ 33，返回杨辉三角的第 k 行。
+
+在杨辉三角中，每个数是它左上方和右上方的数的和。
+
+示例:
+
+输入: 3
+输出: [1,3,3,1]
+
+进阶：
+
+你可以优化你的算法到 O(k) 空间复杂度吗？
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+根据 118 修改。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    vector<int> getRow(int rowIndex) {
+        vector<vector<int>> res(34, vector<int>());
+        for(int i = 0; i < 34; i++)
+        {
+            res[i].resize(i+1);
+            res[i][0] = 1;
+            res[i][i] = 1;
+        }
+        for(int j = 2; j < 34; j++)
+        {
+            for(int k = 1; k < res[j].size()-1; k++)
+            {
+                res[j][k] = res[j-1][k-1] + res[j-1][k];
+            }
+        }
+        return res[rowIndex];
+    }
+};

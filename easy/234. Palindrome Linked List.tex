@@ -1,0 +1,101 @@
+请判断一个链表是否为回文链表。
+
+示例 1:
+
+输入: 1->2
+输出: false
+
+示例 2:
+
+输入: 1->2->2->1
+输出: true
+
+进阶：
+你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+1.遍历链表，将值存放在容器中。
+2.两个指针 head 和 p，head 指向开头，p 指向末尾。若指向的值相等，则 head指针后移，p 指针前移，使用递归实现。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        return check(head, head);
+    }
+    bool check(ListNode* &head, ListNode* p)
+    {
+        if(!p) return true;
+        bool is_pal = check(head, p->next);
+        if(head->val != p->val)
+            return false;
+        head = head->next;
+        return is_pal;
+    }
+};
