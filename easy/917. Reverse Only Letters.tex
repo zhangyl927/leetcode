@@ -1,0 +1,104 @@
+给定一个字符串 S，返回 “反转后的” 字符串，其中不是字母的字符都保留在原地，而所有字母的位置发生反转。
+
+ 
+
+示例 1：
+
+输入："ab-cd"
+输出："dc-ba"
+
+示例 2：
+
+输入："a-bC-dEf-ghIj"
+输出："j-Ih-gfE-dCba"
+
+示例 3：
+
+输入："Test1ng-Leet=code-Q!"
+输出："Qedo1ct-eeLg=ntse-T!"
+
+ 
+
+提示：
+
+    S.length <= 100
+    33 <= S[i].ASCIIcode <= 122 
+    S 中不包含 \ or "
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+新建一个空字符数组，并将原字符串中的非字母部分在原位置拷贝，字母部分用 ‘ ’ 代替，并将字母放入栈中。将栈中的字母放在新字符数组‘ ’处即可。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    string reverseOnlyLetters(string S) {
+        string res = "";
+        stack<char> myStack;
+        for(auto &c:S)
+        {
+            if(isalpha(c))
+            {
+                myStack.push(c); 
+                res += ' ';
+            }
+            else res += c;
+        }
+        for(auto &i:res)
+        {
+            if(i == ' ' && !myStack.empty())
+            {
+                i = myStack.top();
+                myStack.pop();
+            }
+        }
+        return res;
+    }
+};
