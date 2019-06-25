@@ -1,0 +1,109 @@
+给定一个单词列表，只返回可以使用在键盘同一行的字母打印出来的单词。键盘如下图所示。
+
+ 
+
+American keyboard
+
+ 
+
+示例：
+
+输入: ["Hello", "Alaska", "Dad", "Peace"]
+输出: ["Alaska", "Dad"]
+
+ 
+
+注意：
+
+    你可以重复使用键盘上同一字符。
+    你可以假设输入的字符串将只包含字母。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+创建一个 map<char, int>, 每个字符及其行号放进 map 中。
+遍历容器中的字符串，将字符串中的的字符全部转换为小写字母，取出字符串中每个字符的 行号进行比较，全部相同则将该字符串放入结果中。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    vector<string> findWords(vector<string>& words) {
+        vector<string> s;
+        unordered_map<char, int> line;
+        line['q'] = 1;
+        line['w'] = 1;
+        line['e'] = 1;
+        line['r'] = 1;
+        line['t'] = 1;
+        line['y'] = 1;
+        line['u'] = 1;
+        line['i'] = 1;
+        line['o'] = 1;
+        line['p'] = 1;
+        line['a'] = 2;
+        line['s'] = 2;
+        line['d'] = 2;
+        line['f'] = 2;
+        line['g'] = 2;
+        line['h'] = 2;
+        line['j'] = 2;
+        line['k'] = 2;
+        line['l'] = 2;
+        line['z'] = 3;
+        line['x'] = 3;
+        line['c'] = 3;
+        line['v'] = 3;
+        line['b'] = 3;
+        line['n'] = 3;
+        line['m'] = 3;
+        
+        for(int i = 0; i < words.size(); i++)
+        {
+            string temp = words[i];
+            for(auto &c:words[i])
+            {
+                if(c >= 'A' && c <= 'Z') c += 32;   
+            }
+            int flag = 0;
+            for(int j = 1; flag == 0 && j < words[i].size(); j++)
+            {
+                if(line[words[i][j]] != line[words[i][j-1]])
+                {
+                    flag = 1; j = words[i].size();
+                }
+            }
+            words[i] = temp;
+            if(flag == 0) s.push_back(words[i]);
+        }
+        return s;
+    }
+};
