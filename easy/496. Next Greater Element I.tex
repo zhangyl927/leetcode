@@ -1,6 +1,6 @@
-给定两个没有重复元素的数组 nums1 和 nums2 ，其中nums1 是 nums2 的子集。找到 nums1 中每个元素在 nums2 中的下一个比其大的值。
+给定两个没有重复元素的数组 nums1 和 nums2 ，其中nums1 是 nums2 的子集。找到 nums1 中每个元素在 nums2 中的下一个比其大的值。
 
-nums1 中数字 x 的下一个更大元素是指 x 在 nums2 中对应位置的右边的第一个比 x 大的元素。如果不存在，对应位置输出-1。
+nums1 中数字 x 的下一个更大元素是指 x 在 nums2 中对应位置的右边的第一个比 x 大的元素。如果不存在，对应位置输出-1。
 
 示例 1:
 
@@ -15,12 +15,12 @@ nums1 中数字 x 的下一个更大元素是指 x 在 nums2 中对应位
 输入: nums1 = [2,4], nums2 = [1,2,3,4].
 输出: [3,-1]
 解释:
-    对于num1中的数字2，第二个数组中的下一个较大数字是3。
+    对于num1中的数字2，第二个数组中的下一个较大数字是3。
     对于num1中的数字4，第二个数组中没有下一个更大的数字，因此输出 -1。
 注意:
 
 nums1和nums2中所有元素是唯一的。
-nums1和nums2 的数组大小都不超过1000。
+nums1和nums2 的数组大小都不超过1000。
 
 
 
@@ -48,13 +48,36 @@ nums1和nums2 的数组大小都不超过1000。
 
 
 
-思路：
+思路1：
 使用 find() 函数找到 num1 当前数字在 num2 中的位置，在此位置后面找比 num1 当前数字大的数。若找不到则为 -1，否则填入该数字。
 
 
 
 
 
+思路2：
+直接法。
+
+
+
+
+思路3： 
+map<value, index>。将 nums2 的 值和索引 存放在 map 中。
+
+
+
+
+
+思路4：
+单调栈。
+对 nums2 从最后一位往前扫描
+while stack != empty && current value 大于 stack.top 的值时
+	stack pop
+if(stack.empty()) map[current value] = -1;
+else map[current value] = stack.top;
+stack.push(current value);
+
+将 num2 中每位数的 val 和 next val 存放在 map 中了，根据 num1 的值在 map 中查找即可得到答案。
 
 
 
@@ -76,7 +99,11 @@ nums1和nums2 的数组大小都不超过1000。
 
 
 
-code：
+
+
+
+
+code1：
 class Solution {
 public:
     vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
@@ -95,6 +122,85 @@ public:
             }
             if(it == nums2.end()) res.push_back(-1);
         }
+        return res;
+    }
+};
+
+
+
+
+code2：
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> res;
+        for(int i = 0; i < nums1.size(); i++)
+        {
+            bool flag = false;
+            int j = 0;
+            for(; j < nums2.size(); j++)
+            {
+                if(flag && nums2[j] > nums1[i])
+                {
+                    res.push_back(nums2[j]); break;
+                }
+                if(nums2[j] == nums1[i]) flag = true;
+            }
+            if(j == nums2.size()) res.push_back(-1);
+        }
+        return res;
+    }
+};
+
+
+
+
+
+code3：
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> res;
+        unordered_map<int, int> nums2map;
+        for(int p = 0; p < nums2.size(); p++)
+            nums2map[nums2[p]] = p;
+        
+        for(auto c:nums1)
+        { 
+            int j = nums2map[c];
+            for(; j < nums2.size(); j++)
+            {
+                if(nums2[j] > c)
+                {
+                    res.push_back(nums2[j]); break;
+                }  
+            }
+            if(j == nums2.size()) res.push_back(-1);
+        }
+        return res;
+    }
+};
+
+
+
+
+
+code4：
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> res;
+        stack<int> Stack;
+        unordered_map<int, int> map2;
+        for(int i = nums2.size()-1; i >= 0; i--)
+        {
+            while(!Stack.empty() && nums2[i] > Stack.top())
+                Stack.pop();
+            if(Stack.empty()) map2[nums2[i]] = -1;
+            else map2[nums2[i]] = Stack.top();
+            Stack.push(nums2[i]);
+        }
+        for(auto c:nums1) res.push_back(map2[c]);
         return res;
     }
 };
