@@ -10,8 +10,45 @@
 所以返回 [0, 1]
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 思路：
-暴力破解法
+先排序。设置头尾两个指针 front = 0, rear = nums.size() - 1；
+若 nums[front] + nums[rear] == target, return;
+若 nums[front] + nums[rear] < target, front++;
+若 nums[front] + nums[rear] > target, rear--;
+
+
+
+
+
+
+
+
+
 
 
 
@@ -35,21 +72,35 @@ code:
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        vector<int> result;
-        int size = nums.size();
+        vector<int> res;
+        vector<int> temp = nums;
+        sort(nums.begin(), nums.end());
         
-        for(int i = 0; i < size - 1; i++)
+        int front = 0, rear = nums.size()-1, value1 = 0, value2 = 0;
+        while(front < rear)
         {
-            for(int j = i+1; j < size; j++)
+            if(nums[front] + nums[rear] == target)
             {
-                if(nums[i] + nums[j] == target)
-                {
-                    result.push_back(i);
-                    result.push_back(j);
-                    return result;
-                }
+                value1 = nums[front]; value2 = nums[rear]; break;
             }
+            else if(nums[front] + nums[rear] < target)
+                front++;
+            else rear--;
         }
-        return result;
+        
+        int flag = 0;
+        for(int i = 0; i < temp.size(); i++)
+        {
+            if(temp[i] == value1)
+            {
+                res.push_back(i); flag++;
+            }
+            else if(temp[i] == value2)
+            {
+                res.push_back(i); flag++;
+            }
+            if(flag == 2) break;
+        }
+        return res;
     }
 };
