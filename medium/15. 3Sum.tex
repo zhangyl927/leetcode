@@ -1,0 +1,99 @@
+给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。
+
+注意：答案中不可以包含重复的三元组。
+
+例如, 给定数组 nums = [-1, 0, 1, 2, -1, -4]，
+
+满足要求的三元组集合为：
+[
+  [-1, 0, 1],
+  [-1, -1, 2]
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+先排序，从前往后循环遍历，在每个循环内部，前后两个指针查找 和为 target，则放入容器中。
+需考虑重复的情况。当遇到重复的数时，直接移到该重复数 的最后一位进行查找。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>> res;
+        sort(nums.begin(), nums.end());
+        for(int i = 0; i < nums.size(); i++)
+        {
+            if(i > 0 && nums[i] == nums[i-1]) continue;
+            int target = -nums[i];
+            int left = i+1, right = nums.size()-1;
+            while(left < right)
+            {
+                int sum = nums[left] + nums[right];
+                if(sum == target)
+                {
+                    vector<int> vi(3,0);
+                    vi = {nums[i], nums[left], nums[right]};
+                    res.push_back(vi);
+                    while(left + 1 < right && nums[left] == nums[left+1]) left++;
+                    while(right - 1 > left && nums[right] == nums[right-1]) right--;
+                    left++; right--;
+                }
+                else if(sum < target) left++;
+                else right--;
+            }
+        }
+        return res;
+    }
+    
+};
