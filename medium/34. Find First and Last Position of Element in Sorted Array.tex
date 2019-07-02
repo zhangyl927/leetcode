@@ -1,0 +1,135 @@
+给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。
+
+你的算法时间复杂度必须是 O(log n) 级别。
+
+如果数组中不存在目标值，返回 [-1, -1]。
+
+示例 1:
+
+输入: nums = [5,7,7,8,8,10], target = 8
+输出: [3,4]
+
+示例 2:
+
+输入: nums = [5,7,7,8,8,10], target = 6
+输出: [-1,-1]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+1.直接法。首先从前往后找 第一次出现 target 的位置，再从后往前遍历一次找 最后一次出席那 target 的位置。时间复杂度最大为 O(n)；
+2.双指针法。前指针 front 从前往后遍历，后指针 rear 从后往前遍历。当找到时标志位设为 1。当两个标志位都为 1 时，则停止返回结果。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code1：
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        vector<int> res;
+        int start = -1, end = -1;
+        for(int i = 0; i < nums.size(); i++)
+        {
+            if(nums[i] == target)
+            {
+                start = i; break;
+            }
+        }
+        for(int j = nums.size()-1; j >= 0; j--)
+        {
+            if(nums[j] == target)
+            {
+                end = j; break;
+            }
+        }
+        res.push_back(start);
+        res.push_back(end);
+        return res;
+    }
+};
+
+
+
+code2：
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        if(nums.size() == 1 && nums[0] == target) return {0,0};
+        vector<int> res;
+        int start = -1, end = -1;
+        int front = 0, rear = nums.size()-1, flag1 = 0, flag2 = 0;
+        while(front <= rear)
+        {
+            if(nums[front] == target && flag1 == 0)
+            {
+                start = front; flag1 = 1;
+            }
+            if(nums[rear] == target && flag2 == 0)
+            {
+                end = rear; flag2 = 1;
+            }
+            if(flag1 && flag2) return {front, rear};
+            if(flag1 == 0)
+            {
+                while(front + 1 < rear && nums[front] == nums[front+1]) front++;
+                front++;
+            }
+            if(flag2 == 0)
+            {
+                while(rear - 1 > front && nums[rear] == nums[rear-1]) rear--;
+                rear--;
+            }
+        }
+        res.push_back(start); res.push_back(end);
+        return res;
+    }
+};

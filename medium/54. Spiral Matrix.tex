@@ -1,0 +1,133 @@
+给定一个包含 m x n 个元素的矩阵（m 行, n 列），请按照顺时针螺旋顺序，返回矩阵中的所有元素。
+
+示例 1:
+
+输入:
+[
+ [ 1, 2, 3 ],
+ [ 4, 5, 6 ],
+ [ 7, 8, 9 ]
+]
+输出: [1,2,3,6,9,8,7,4,5]
+
+示例 2:
+
+输入:
+[
+  [1, 2, 3, 4],
+  [5, 6, 7, 8],
+  [9,10,11,12]
+]
+输出: [1,2,3,4,8,12,11,10,9,5,6,7]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+eg1:
+12   3
+  5  6
+4
+7   89
+上图扫描顺序为 12，36，98，74， 剩余为 5
+eg2:
+1  2  3     4
+   6  7     8
+5
+9    10 11 12
+上图扫描顺序为 123， 48，121110，95，  剩余为67
+eg3:
+1   2       3
+            6
+4   5       9
+7   8
+10     11  12
+上图 扫描顺序为 12， 369， 1211，1074， 剩余为 58
+以上三种情况包含了所有剩余的情况。
+
+根据扫描特点，我们可以设置 4 个点 left = 0, right = matrix[0].size()-1, top = 0, bottom = natrix.size()-1；
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        if(matrix.size() == 0) return {};
+        int left = 0, right = matrix[0].size()-1;
+        int top = 0, bottom = matrix.size()-1;
+        vector<int> res;
+        while(left < right && top < bottom)
+        {
+            for(int i = left; i < right; i++) res.push_back(matrix[top][i]);
+            for(int i = top; i < bottom; i++) res.push_back(matrix[i][right]);
+            for(int i = right; i > left; i--) res.push_back(matrix[bottom][i]);
+            for(int i = bottom; i > top; i--) res.push_back(matrix[i][left]);
+            left++; right--;
+            top++; bottom--;
+        }
+        if(left == right)
+        {
+            for(int i = top; i <= bottom; i++) res.push_back(matrix[i][left]);
+        }
+        else if(top == bottom)
+        {
+            for(int i = left; i <= right; i++) res.push_back(matrix[top][i]);
+        }
+        return res;
+    }
+};
