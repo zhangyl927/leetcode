@@ -1,0 +1,92 @@
+给定一个可包含重复数字的序列，返回所有不重复的全排列。
+
+示例:
+
+输入: [1,1,2]
+输出:
+[
+  [1,1,2],
+  [1,2,1],
+  [2,1,1]
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+同 46 题。
+解决重复问题：使用 set 去重，然后赋给 容器 rv。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        vector<vector<int>> res,rv;
+        int n = nums.size();
+        backtrack(n, nums, res, 0);
+        set<vector<int>> s1(res.begin(), res.end());
+        set<vector<int>>::iterator it;
+        for(it = s1.begin(); it != s1.end(); it++)
+            rv.push_back(*it);
+        return rv;
+    }
+    void backtrack(int n, vector<int>& nums, vector<vector<int>>& res, int t)
+    {
+        if(t == n) res.push_back(nums);
+        for(int i = t; i < n; i++)
+        {
+            swap(nums[t], nums[i]);
+            backtrack(n, nums, res, t+1);
+            swap(nums[t], nums[i]);
+        }
+    }
+};

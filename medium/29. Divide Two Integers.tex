@@ -1,0 +1,105 @@
+给定两个整数，被除数 dividend 和除数 divisor。将两数相除，要求不使用乘法、除法和 mod 运算符。
+
+返回被除数 dividend 除以除数 divisor 得到的商。
+
+示例 1:
+
+输入: dividend = 10, divisor = 3
+输出: 3
+
+示例 2:
+
+输入: dividend = 7, divisor = -3
+输出: -2
+
+说明:
+
+    被除数和除数均为 32 位有符号整数。
+    除数不为 0。
+    假设我们的环境只能存储 32 位有符号整数，其数值范围是 [−231,  231 − 1]。本题中，如果除法结果溢出，则返回 231 − 1。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+当 dividend 为 INT_MIN 时，若 divisor = -1，则结果为 2的31 次方 > INT_MAX；
+long 为 8 个字节，防止计算过程中 出现溢出情况。
+做一些预处理，保证计算过程中 dividend 和 divisor 都为 正数，引入了 sign 标志正负。
+res 统计结果，如 dividend = 32, divisor = 3，第一次 res = 8；第二次 res = 8 + 2; res*sign 即为结果。 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    int divide(int dividend, int divisor) {
+        if(dividend == INT_MIN)
+        {
+            if(divisor == -1) return INT_MAX;
+            else if(divisor == 1) return INT_MIN;
+        }
+        long divid = (long)dividend;
+        long divis = (long)divisor;
+        int res = 0, sign = 1;
+        if(divid < 0)
+        {
+            divid = -divid; sign = -sign;
+        }
+        if(divis < 0)
+        {
+            divis = -divis; sign = -sign;
+        }
+        while(divid >= divis)
+        {
+            int shift = 0;
+            while(divid >= divis<<shift)
+                shift++;
+            res += (1 << (shift-1));
+            divid -= (divis << (shift-1));
+        }
+        return res*sign;
+    }
+};
