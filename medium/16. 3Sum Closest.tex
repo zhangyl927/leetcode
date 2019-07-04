@@ -87,23 +87,22 @@ public:
     int threeSumClosest(vector<int>& nums, int target) {
         if(nums.size() < 3) return 0;
         sort(nums.begin(), nums.end());
-        int min = nums[0]+nums[1]+nums[2];
+        int closest = nums[0]+nums[1]+nums[2];
         for(int i = 0; i < nums.size()-2; i++)
         {
-            if(i > 0 && nums[i] == nums[i-1]) continue;
-            int l = i+1, r = nums.size()-1;
-            while(l < r)
+            int left = i+1, right = nums.size()-1;
+            while(left < right)
             {
-                int sum = nums[i]+nums[l]+nums[r];
-                if(sum == target) return sum;
-                if(abs(sum-target) < abs(target-min))
+                int sum = nums[i]+nums[left]+nums[right];
+                if(abs(sum-target) < abs(closest-target))
                 {
-                    min = sum;
+                    closest = sum;
                 }
-                if(sum > target) r--;
-                else l++;
+                if(sum == target) return sum;
+                else if(sum > target) right--;
+                else left++;
             }
         }
-        return min;
+        return closest;
     }
 };

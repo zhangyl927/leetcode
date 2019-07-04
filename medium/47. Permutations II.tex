@@ -70,22 +70,22 @@ code：
 class Solution {
 public:
     vector<vector<int>> permuteUnique(vector<int>& nums) {
-        vector<vector<int>> res,rv;
+        vector<vector<int>> rv;
         int n = nums.size();
-        backtrack(n, nums, res, 0);
-        set<vector<int>> s1(res.begin(), res.end());
+        set<vector<int>> s1;
+        backtrack(n, nums, s1, 0);
         set<vector<int>>::iterator it;
         for(it = s1.begin(); it != s1.end(); it++)
             rv.push_back(*it);
         return rv;
     }
-    void backtrack(int n, vector<int>& nums, vector<vector<int>>& res, int t)
+    void backtrack(int n, vector<int>& nums, set<vector<int>>& s1, int t)
     {
-        if(t == n) res.push_back(nums);
+        if(t == n) s1.insert(nums);
         for(int i = t; i < n; i++)
         {
             swap(nums[t], nums[i]);
-            backtrack(n, nums, res, t+1);
+            backtrack(n, nums, s1, t+1);
             swap(nums[t], nums[i]);
         }
     }
