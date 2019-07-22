@@ -1,0 +1,98 @@
+实现获取下一个排列的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。
+
+如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。
+
+必须原地修改，只允许使用额外常数空间。
+
+以下是一些例子，输入位于左侧列，其相应输出位于右侧列。
+1,2,3 → 1,3,2
+3,2,1 → 1,2,3
+1,1,5 → 1,5,1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+从后往前找第一个 nums[i]<nums[i+1], index = i, 再从后往前找第一个 num[j] > nums[index]，swap(nums[j], nums[index])，从index+1 位开始从小到大排列，即 sort(nums.begin()+index+1, nums.end());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        int index = -1;
+        for(int i = nums.size()-1; i >= 1; i--)
+        {
+            if(nums[i-1] < nums[i])
+            {
+                index = i-1; break;
+            }
+        }
+        if(index == -1)
+        {
+            reverse(nums.begin(), nums.end());
+            return;
+        }
+        for(int j = nums.size()-1; j >= 0; j--)
+        {
+            if(nums[j] > nums[index])
+            {
+                swap(nums[index], nums[j]); break;
+            }
+        }
+        sort(nums.begin()+index+1, nums.end());
+    }
+};

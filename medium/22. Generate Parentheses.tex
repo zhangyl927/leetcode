@@ -1,0 +1,80 @@
+给出 n 代表生成括号的对数，请你写出一个函数，使其能够生成所有可能的并且有效的括号组合。
+
+例如，给出 n = 3，生成结果为：
+
+[
+  "((()))",
+  "(()())",
+  "(())()",
+  "()(())",
+  "()()()"
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路:
+回溯算法。
+当 string size < n*2 时，还需要继续插入字符；
+   string size == n*2 时，保存至结果中。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code:
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> res;
+        backTrack(n, "", res, 0, 0);
+        return res;
+    }
+    void backTrack(int n, string s, vector<string>& res, int open, int close)
+    {
+        if(s.size() == n*2) res.push_back(s);
+        else
+        {
+            if(open < n) backTrack(n, s+"(", res, open+1, close);
+            if(close < open) backTrack(n, s+")", res, open, close+1);
+        }
+    }
+};
