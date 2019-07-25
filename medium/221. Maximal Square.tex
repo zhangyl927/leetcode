@@ -1,0 +1,184 @@
+在一个由 0 和 1 组成的二维矩阵内，找到只包含 1 的最大正方形，并返回其面积。
+
+示例:
+
+输入: 
+
+1 0 1 0 0
+1 0 1 1 1
+1 1 1 1 1
+1 0 0 1 0
+
+输出: 4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+dp；
+输入：
+			1 0 1 0 0
+			1 0 1 1 1
+			1 1 1 1 1
+			1 0 0 1 0
+
+dp table: 	   0 0 0 0 0 0
+		   0 1 0 1 0 0
+		   0 1 0 1 1 1
+		   0 1 1 1 2 1
+		   0 1 0 0 1 0
+
+choice the max; return max*max;
+
+
+
+
+优化 dp 空间为 2 vector：
+仅使用两行，一行 current 存放当前的值，pre 存放前一行的值；
+
+
+
+
+优化 dp 空间为 1 vector：
+curl 存放上一行的值，pre 存放当前值的左上角的值；
+
+输入：
+			1 0 1 0 0
+			1 0 1 1 1
+			1 1 1 1 1
+			1 0 0 1 0
+
+遍历第一行得到 curl： 1 0 1 0 0
+遍历第二行时，pre 存放左上角的值，
+ cur[j]  =  min(pre, min(cur[j],             cur[j - 1]))       + 1;
+当前的 j           上一行的 j，还未覆盖   当前行的j-1，已经覆盖
+
+
+
+
+
+
+
+
+优化 1 vector code:
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        if (matrix.empty()) {
+            return 0;
+        }
+        int m = matrix.size(), n = matrix[0].size(), sz = 0, pre;
+        vector<int> cur(n, 0);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int temp = cur[j];
+                if (!i || !j || matrix[i][j] == '0') {
+                    cur[j] = matrix[i][j] - '0';
+                } else {
+                    cur[j] = min(pre, min(cur[j], cur[j - 1])) + 1;
+                }
+                sz = max(cur[j], sz);
+                pre = temp;
+            }
+        }
+        return sz * sz;
+    }
+};
+
+
+
+
+
+
+
+优化 2 vector code：
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        if (matrix.empty()) {
+            return 0;
+        }
+        int m = matrix.size(), n = matrix[0].size(), sz = 0;
+        vector<int> pre(n, 0), cur(n, 0);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (!i || !j || matrix[i][j] == '0') {
+                    cur[j] = matrix[i][j] - '0';
+                } else {
+                    cur[j] = min(pre[j - 1], min(pre[j], cur[j - 1])) + 1;
+                }
+                sz = max(cur[j], sz);
+            }
+            fill(pre.begin(), pre.end(), 0);
+            swap(pre, cur);
+        }
+        return sz * sz;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        if(matrix.size() == 0) return 0;
+        int m = matrix.size(), n = matrix[0].size();
+        vector<vector<int>> table(m+1, vector<int>(n+1));
+        int res = 0;
+        for(int i = 1; i <= m; i++)
+        {
+            for(int j = 1; j <= n; j++)
+            {
+                if(matrix[i-1][j-1] == '0') table[i][j] = 0;
+                else
+                {
+                    table[i][j] = min(table[i-1][j-1], min(table[i-1][j], table[i][j-1]))+1;
+                    res = max(res, table[i][j]);
+                }
+            }
+        }
+        return res*res;
+    }
+};

@@ -1,0 +1,133 @@
+给定一个仅包含 0 和 1 的二维二进制矩阵，找出只包含 1 的最大矩形，并返回其面积。
+
+示例:
+
+输入:
+[
+  ["1","0","1","0","0"],
+  ["1","0","1","1","1"],
+  ["1","1","1","1","1"],
+  ["1","0","0","1","0"]
+]
+输出: 6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+在 84 题的基础上完成；
+dp，heights 记录每一行中 1 的深度，调用 84 题实现的接口函数，返回最大 area 即可；
+
+input：
+			1 0 1 0 0
+			1 0 1 1 1
+			1 1 1 1 1
+			1 0 0 1 0
+
+heightis        1 0 1 0 0
+			2 0 2 1 1
+			3 1 3 2 2
+			4 0 0 3 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        if(matrix.size() == 0) return 0;
+        int row = matrix.size(), col = matrix[0].size();
+        vector<int> heights(col, 0);
+        int maxarea = 0;
+        for(int i = 0; i < row; i++)
+        {
+            for(int j = 0; j < col; j++)
+            {
+                if(matrix[i][j] == '1') heights[j]++;
+                else heights[j] = 0;
+            }
+            int area = largestRectangleArea(heights);
+            maxarea = max(maxarea, area);
+        }
+        return maxarea;
+    }
+    
+    int largestRectangleArea(vector<int> &height) {
+            
+            int ret = 0;
+            height.push_back(0);
+            vector<int> index;
+            
+            for(int i = 0; i < height.size(); i++)
+            {
+                while(index.size() > 0 && height[index.back()] >= height[i])
+                {
+                    int h = height[index.back()];
+                    index.pop_back();
+                    
+                    int sidx = index.size() > 0 ? index.back() : -1;
+                    if(h * (i-sidx-1) > ret)
+                        ret = h * (i-sidx-1);
+                }
+                index.push_back(i);
+            }
+            
+            return ret;
+        }
+};

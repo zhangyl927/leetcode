@@ -1,0 +1,109 @@
+给定一个非空二维矩阵 matrix 和一个整数 k，找到这个矩阵内部不大于 k 的最大矩形和。
+
+示例:
+
+输入: matrix = [[1,0,1],[0,-2,3]], k = 2
+输出: 2 
+解释: 矩形区域 [[0, 1], [-2, 3]] 的数值和是 2，且 2 是不超过 k 的最大数字（k = 2）。
+说明：
+
+矩阵内的矩形区域面积必须大于 0。
+如果行数远大于列数，你将如何解答呢？
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+set 是有序的，无重复集合；
+   i - set 里的数 <= k
+即 i - k <= set 里的数。所以使用 lower_bound；
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    int maxSumSubmatrix(vector<vector<int>>& matrix, int k) {
+    if(matrix.empty()) return 0;
+    int row = matrix.size(), col = matrix[0].size(), res = INT_MIN;
+    for(int l = 0; l < col; l++)
+    {
+        vector<int> sums(row, 0);
+        for(int r = l; r < col; r++)
+        {
+            for(int i = 0; i < row; i++) sums[i] += matrix[i][r];
+
+            // Find the max subarray no more than K
+            set<int> resSet;
+            resSet.insert(0);
+            int currentSum = 0, currentMax = INT_MIN;
+            for(int sum:sums)
+            {
+                currentSum += sum;
+                if(currentSum == k) return currentSum;
+                else
+                {
+                    set<int>::iterator it = resSet.lower_bound(currentSum-k);
+                    if(it != resSet.end()) currentMax = max(currentMax, currentSum-*it);
+                    resSet.insert(currentSum);
+                }
+            }
+            res = max(res, currentMax);
+        }
+    }
+    return res;
+}
+};
