@@ -1,0 +1,101 @@
+给定一个未排序的整数数组，找出最长连续序列的长度。
+
+要求算法的时间复杂度为 O(n)。
+
+示例:
+
+输入: [100, 4, 200, 1, 3, 2]
+输出: 4
+解释: 最长连续序列是 [1, 2, 3, 4]。它的长度为 4。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+遍历，先判断这个数 num 是否在 hash table 中，若在，则continue；
+否则，判断 num-1 、num+1 是否在hash table 中, 若在则找到他们，并更新他们的 value，并将num存入 hash table 中。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        unordered_map<int, int> numap;
+        int ans = 0;
+        for(auto num:nums)
+        {
+            if(numap.count(num)) continue;
+            
+            auto it_l = numap.find(num-1);
+            auto it_r = numap.find(num+1);
+            
+            int l = (it_l!=numap.end())?it_l->second:0;
+            int r = (it_r!=numap.end())?it_r->second:0;
+            int t = l+r+1;        
+            numap[num]=numap[num-l]=numap[num+r]=t;
+            
+            ans = max(ans, t);
+        }
+        return ans;
+    }
+};

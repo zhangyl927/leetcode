@@ -1,0 +1,90 @@
+给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
+
+
+
+上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。 感谢 Marcos 贡献此图。
+
+示例:
+
+输入: [0,1,0,2,1,0,1,3,2,1,2,1]
+输出: 6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+设置左右指针 i 和 j，leftmax 和 rightmax 分别表示左边的最大值和右边的最大值。rainmax 存放水；
+leftmax = max(leftmax, height[i])，
+rightmax = max(rightmax, height[j]),
+若 leftmax < rightmax，则 将当前左指针处能存放的水加入rainmax 中，之后左指针向右移动。
+若 rightmax < leftmax, 则 将当前右指针处能存放的水加入rainmax 中，之后右指针向左移动。
+当两个指针相邻时，结束。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        if(height.empty() || height.size()<3) return 0;
+        int i = 0, j = height.size()-1;
+        int leftmax = 0, rightmax = 0;
+        int rainmax = 0;
+        while(i < j)
+        {
+            leftmax = max(leftmax, height[i]);
+            rightmax = max(rightmax, height[j]);
+            if(leftmax < rightmax)
+            {
+                rainmax += leftmax-height[i++];
+            }
+            else
+            {
+                rainmax += rightmax-height[j--];
+            }
+        }
+        return rainmax;
+    }
+};

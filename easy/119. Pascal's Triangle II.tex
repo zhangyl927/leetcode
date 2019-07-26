@@ -50,6 +50,29 @@
 根据 118 修改。
 
 
+优化code：仅保留一行即可；
+需从后往前计算，因为从前往后计算，会将值修改，而计算一个值 nums[i]是需要根据前一行中的 i-1 和 i 来计算的。
+若从前往后计算，上一行 中的 i-1 和 i 会变大， 这样就会导致值越来越大，而不是我们需要的结果；
+
+如 rowIndex = 5：
+结果为： 1 5 14 28 42 42
+
+所以，应该用  for(int j = i; j >= 1; j--) 而不是 for(int j = 1; j <= i; j++)。
+
+
+
+class Solution {
+public:
+    vector<int> getRow(int rowIndex) {
+        vector<int> res(rowIndex+1, 0);
+        res[0] = 1;
+        for(int i = 1; i < rowIndex+1; i++)
+            for(int j = i; j >= 1; j--)
+                res[j] += res[j-1];
+        return res;
+    }
+};
+
 
 
 

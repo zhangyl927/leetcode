@@ -45,12 +45,37 @@
 
 
 思路：
-cash 表示当前没有持有股票的利润，hold 表示当前持有股票的利润；
+1.cash 表示当前没有持有股票的利润，hold 表示当前持有股票的利润；
+2.股票问题框架解题法。
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+框架解题法code：
+class Solution {
+public:
+    int maxProfit(vector<int>& prices, int fee) {
+        int dp_i0 = 0, dp_i1 = INT_MIN;
+        for(int i = 0; i < prices.size(); i++)
+        {
+            dp_i0 = max(dp_i0, dp_i1+prices[i]);
+            dp_i1 = max(dp_i1, dp_i0-prices[i]-fee);
+        }
+        return dp_i0;
+    }
+};
 
 
 
