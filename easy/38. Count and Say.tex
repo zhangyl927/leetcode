@@ -59,6 +59,11 @@
 思路：
 https://www.youtube.com/watch?v=hTwR5lpjU-0
 
+			1	2	1	1
+cnt 		0	1	1	1	2
+
+pre		.	.	1	2	1
+			1	2	1	1
 
 
 
@@ -93,33 +98,29 @@ https://www.youtube.com/watch?v=hTwR5lpjU-0
 
 
 
-code：
 class Solution {
 public:
     string countAndSay(int n) {
-        if(n == 0) return "";
-        string res = "1";
+        if(n <= 0) return "";
+        string str = "1";
         for(int i = 1; i < n; i++)
         {
-            int count = 0;
-            char current = '.';
-            string temp = "";
-            for(int j = 0; j < res.size(); j++)
+            int cnt = 0;
+            char pre = '.';
+            string temp;
+            for(int j = 0; j < str.length(); j++)
             {
-                if(current == '.' || res[j] == res[j-1])   // 为了避免溢出，|| 后面的不执行
-                {
-                    count++;
-                }
+                if(str[j]==pre || pre=='.') cnt++;
                 else
                 {
-                    temp += to_string(count) + current;
-                    count = 1;
+                    temp += to_string(cnt)+pre;
+                    cnt = 1;
                 }
-                current = res[j];
+                pre = str[j];
             }
-            temp += to_string(count) + current;
-            res = temp;
+            temp += to_string(cnt)+pre;
+            str = temp;
         }
-        return res;
+        return str;
     }
 };

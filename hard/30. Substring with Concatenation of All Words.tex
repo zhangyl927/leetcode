@@ -1,0 +1,131 @@
+给定一个字符串 s 和一些长度相同的单词 words。找出 s 中恰好可以由 words 中所有单词串联形成的子串的起始位置。
+
+注意子串要与 words 中的单词完全匹配，中间不能有其他字符，但不需要考虑 words 中单词串联的顺序。
+
+ 
+
+示例 1：
+
+输入：
+  s = "barfoothefoobarman",
+  words = ["foo","bar"]
+输出：[0,9]
+解释：
+从索引 0 和 9 开始的子串分别是 "barfoor" 和 "foobar" 。
+输出的顺序不重要, [9,0] 也是有效答案。
+示例 2：
+
+输入：
+  s = "wordgoodgoodgoodbestword",
+  words = ["word","good","best","word"]
+输出：[]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+问题：
+原代码：
+for(int i = 0; i <= （s.size()-wn*wl); i++) 当测试用例为  "a",{"a","a"} 时出错，s.size()-wn*wl = -1，但是 for 循环仍然执行了。
+修改为
+int limit = s.size()-wn*wl;
+for(int i = 0; i <= limit; i++)
+正常工作。
+编译器无法计算 i <= （s.size()-wn*wl); 的结果？
+
+
+将 words 中的 string 放入 wmap 中，i 遍历 s，
+创建一个map copy(wmap), k = words.size(), j = i;
+while k > 0
+c = substr(j, words[0].length())      // 每次 j 往前移动 words[0].size() 长度，即得到子串 c =
+if(!copy.count[c] || count[c]==0) break, // i -> i+1
+k--, j += words[0].length();
+if k == 0 	res.push_back(i);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    vector<int> findSubstring(string s, vector<string>& words) {
+        vector<int> ret;
+        if(s.length()==0 || words.size()==0) return {};
+        unordered_map<string, int> wmap;
+        for(auto c:words) wmap[c]++;
+        int wn = words.size(), wl = words[0].length();
+        
+        int limit = s.size()-wn*wl;
+        for(int i = 0; i <= limit; i++)
+        {
+            unordered_map<string, int> copy(wmap);
+            int k = wn;
+            int j = i;
+            while(k > 0)
+            {
+                string temp = s.substr(j, wl);
+                if(!copy.count(temp) || copy[temp]==0) break;
+                copy[temp]--;
+                k--;
+                j += wl;
+            }
+            if(k == 0) ret.push_back(i);
+        }
+        return ret;
+    }
+};

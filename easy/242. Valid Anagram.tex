@@ -1,6 +1,6 @@
 给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。
 
-示例 1:
+示例 1:
 
 输入: s = "anagram", t = "nagaram"
 输出: true
@@ -29,7 +29,8 @@
 
 
 思路：
-使用map。
+使用map。 
+优化：使用一个 map 即可。
 
 
 
@@ -42,8 +43,21 @@
 
 
 
-
-
+优化 code:
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        if(s.length() != t.length()) return false;
+        unordered_map<char, int> smap;
+        for(auto c:s) smap[c]++;
+        for(auto c:t)
+        {
+            if(!smap.count(c) || smap[c]==0) return false;
+            else smap[c]--;
+        }
+        return true;
+    }
+};
 
 
 

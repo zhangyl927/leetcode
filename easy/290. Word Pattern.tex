@@ -50,11 +50,49 @@
 
 
 思路：
-istringstream in(str) 实现 java 的 字符串切割 split。使用 hash。
+1.istringstream in(str) 实现 java 的 字符串切割 split。使用 hash。
+2.istringstream in(str) 实现字符串切割，若 pattern.length() != sv.size()，则 false;；// 如 juquery, juquery
+遍历 pattern，找当前元素出现的第一个 position，若 pattern[i]的 position != sv[i] 的 position，返回false。
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code2:
+class Solution {
+public:
+    bool wordPattern(string pattern, string str) {
+        istringstream in(str);
+        vector<string> sv;
+        string temp;
+        while(in >> temp) sv.push_back(temp);
+        
+        if(pattern.length() != sv.size()) return false;
+        
+        for(int i = 0; i < pattern.size(); i++)
+        {
+            int ppos = pattern.find(pattern[i]);
+            int spos = find(sv.begin(), sv.end(), sv[i])-sv.begin();
+            if(ppos != spos) return false;
+        }
+        return true;
+    }
+};
 
 
 

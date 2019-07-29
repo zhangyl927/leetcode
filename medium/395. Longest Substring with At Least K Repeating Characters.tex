@@ -1,0 +1,113 @@
+找到给定字符串（由小写字符组成）中的最长子串 T ， 要求 T 中的每一字符出现次数都不少于 k 。输出 T 的长度。
+
+示例 1:
+
+输入:
+s = "aaabb", k = 3
+
+输出:
+3
+
+最长子串为 "aaa" ，其中 'a' 重复了 3 次。
+示例 2:
+
+输入:
+s = "ababbc", k = 2
+
+输出:
+5
+
+最长子串为 "ababb" ，其中 'a' 重复了 2 次， 'b' 重复了 3 次。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+切割方法：
+两个指针 begin 和 end，用 end 遍历 s，当找到 s[end-'a'] 的次数 < k 时，取 max(ret, substr(begin, end-begin)中符合 > k 的子串长度)； 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    int longestSubstring(string s, int k) {
+        int ret = 0;
+        if(s.length() < k) return 0;
+        vector<int> hash(26,0);
+        bool fullString = true;
+        
+        for(auto c:s) hash[c-'a']++;
+        for(int i = 0; i < s.length(); i++)
+            if(hash[s[i]-'a'] < k)
+            {
+                fullString = false; break;
+            }
+        if(fullString) return s.length();
+        
+        int begin = 0, end = 0;
+        while(end < s.length())
+        {
+            if(hash[s[end]-'a'] < k)
+            {
+                ret = max(ret, longestSubstring(s.substr(begin, end-begin), k));
+                begin = end+1;
+            }
+            end++;
+        }
+        ret = max(ret, longestSubstring(s.substr(begin),k));
+        return ret;
+    }
+};

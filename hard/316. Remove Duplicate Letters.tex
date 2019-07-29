@@ -1,0 +1,96 @@
+给定一个仅包含小写字母的字符串，去除字符串中重复的字母，使得每个字母只出现一次。需保证返回结果的字典序最小（要求不能打乱其他字符的相对位置）。
+
+示例 1:
+
+输入: "bcabc"
+输出: "abc"
+示例 2:
+
+输入: "cbacdcbc"
+输出: "acdb"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+遍历字符串数组，将字符出现的次数保存在 cnt 中。used 中存放字符是否被使用；
+string sb 存放结果。遍历字符串数组，当前字符为 c,
+if c is used，continue；
+else 
+	while sb length()>0 && c<sb.back() && count[sb.back()]>0，sb.pop();
+	sb.append(c); used[c] = true;
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    string removeDuplicateLetters(string s) {
+        string sb;
+        vector<int> count(26, 0);
+        vector<bool> used(26, false);
+        for(auto c:s) count[c-'a']++;
+        for(int i = 0; i < s.length(); i++)
+        {
+            count[s[i]-'a']--;
+            // char is already in sb
+            if(used[s[i]-'a']) continue;
+            
+            // char not in sb and char<sb.back() and sb.back().count > 0
+            while(sb.size()>0 && sb.back()>s[i] && count[sb.back()-'a']>0)
+            {
+                used[sb.back()-'a'] = false;
+                sb.pop_back();
+            }
+            sb += s[i];
+            used[s[i]-'a'] = true;
+        }
+        return sb;
+    }
+};

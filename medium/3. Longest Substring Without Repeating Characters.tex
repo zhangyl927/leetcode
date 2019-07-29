@@ -74,14 +74,26 @@ maxlength = max(maxlength, i-start);
 
 
 
+滑动窗口 method
+code:
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if(s.length() == 0) return 0;
+        int ret = 0;
+        unordered_map<char, int> smap;
+        for(int i=0,j=0; i < s.length(); i++)
+        {
+            char curchar = s[i];
+            if(smap.count(curchar) > 0) j = max(j, smap[curchar]+1);
+            smap[curchar] = i;
+            ret = max(ret, i-j+1);
+        }
+        return ret;
+    }
+};
 
-
-
-
-
-
-
-
+等价于：
 
 
 code：

@@ -1,0 +1,128 @@
+给你一个字符串 S、一个字符串 T，请在字符串 S 里面找出：包含 T 所有字母的最小子串。
+
+示例：
+
+输入: S = "ADOBECODEBANC", T = "ABC"
+输出: "BANC"
+说明：
+
+如果 S 中不存这样的子串，则返回空字符串 ""。
+如果 S 中存在这样的子串，我们保证它是唯一的答案。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+创建两个大小为 256的 vector sArr 和 tArr，tArr 中存放 t 的字符出现次数。
+遍历 s 的数组每次找到在 t 中出现的字符处，通过两个指针 left 和 right；
+
+先使得 left 为第一个 s 中出现的 t 中的字符，若left = s.length()(即 s 中不含有 t 中的字符)，return ""；
+令 right = left，right 向后移动，直到 [left, right] 中包含 t 中的所有字符，结果保存在 res 中。再移动 left，若此时仍然 [left, right] 中包含 t 中的所有字符，更新 res，否则，移动 right 指针。
+当 right 指针移动到 right = s.length() 时，结束。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code：
+class Solution {
+public:
+    int findNextStrIdx(int start, string& s, vector<int>& tArr)
+    {
+        while(start < s.length())
+        {
+            if(tArr[s[start]] != 0) return start;
+            else start++;
+        }
+        return start;
+    }
+    
+    string minWindow(string s, string t) {
+        string res;
+        int matchCount = 0;
+        vector<int> sArr(256, 0);
+        vector<int> tArr(256, 0);
+        for(auto c:t) tArr[c]++;
+        
+        int left = findNextStrIdx(0, s, tArr);
+        if(left == s.length()) return ""; // s have no char in T
+        
+        int right = left; // find start && make right=left
+        while(right < s.length())
+        {
+            int rightChar = s[right];
+            if(sArr[rightChar] < tArr[rightChar]) matchCount++;
+            sArr[rightChar]++;
+            
+            while(right<s.length() && matchCount==t.length())
+            {
+                if(res.empty() || res.length()>right-left+1) 
+                    res=s.substr(left, right-left+1);
+                int leftChar = s[left];
+                if(sArr[leftChar] == tArr[leftChar]) matchCount--;
+                sArr[leftChar]--;
+                
+                left = findNextStrIdx(left+1, s, tArr);
+                
+            }
+            right = findNextStrIdx(right+1, s, tArr);
+        }
+        return res;
+    }
+};
