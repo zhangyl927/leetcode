@@ -66,14 +66,16 @@ code：
 class Solution {
 public:
     bool isSubsequence(string s, string t) {
-        if(s.size() == 0) return true;
-        int t_index = 0;
+        if(s.empty()) return true;
+        int curt = 0;
         for(int i = 0; i < s.size(); i++)
         {
-            while(t_index<t.size() && s[i]!=t[t_index])
-                t_index++;
-            if(i==s.size()-1 && t_index<t.size()) return true;
-            t_index++;
+            while(curt<t.size() && s[i]!=t[curt]) curt++;
+            
+            if(curt==t.size()) return false;
+            
+            if(curt<t.size() && i==s.size()-1) return true;
+            curt++;
         }
         return false;
     }
