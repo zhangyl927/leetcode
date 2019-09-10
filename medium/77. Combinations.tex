@@ -1,0 +1,87 @@
+给定两个整数 n 和 k，返回 1 ... n 中所有可能的 k 个数的组合。
+
+示例:
+
+输入: n = 4, k = 2
+输出:
+[
+  [2,4],
+  [3,4],
+  [2,3],
+  [1,2],
+  [1,3],
+  [1,4],
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路:
+递归实现。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code:
+class Solution {
+public:
+    void helper(int n, int k, int st_num, vector<vector<int>>& result, vector<int>& cur)
+    {
+        if(k == 0) result.push_back(cur);
+        else
+        {
+            for(int i = st_num; i <= n; i++)
+            {
+                cur.push_back(i);
+                helper(n, k-1, i+1, result, cur);
+                cur.pop_back();
+            }
+        }
+    }
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> res;
+        vector<int> cur;
+        helper(n, k, 1, res, cur);
+        return res;
+    }
+};

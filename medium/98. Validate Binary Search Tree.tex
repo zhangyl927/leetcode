@@ -44,11 +44,12 @@
 
 
 
+思路1：
+同 94。
 
 
 
-
-思路：
+思路2：
 中序遍历结果存放在容器中，若不是升序的，返回 false。
 
 
@@ -67,13 +68,67 @@
 
 
 
+code1:
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        vector<int> ret;
+        stack<TreeNode*> st;
+        TreeNode* cur = root;
+        while(cur!=NULL || !st.empty())
+        {
+            while(cur != NULL)
+            {
+                st.push(cur);
+                cur = cur->left;
+            }
+            cur = st.top();
+            if(!ret.empty() && cur->val<=ret.back()) return false;
+            ret.push_back(cur->val);
+            st.pop();
+            cur = cur->right;
+        }
+        return true;
+    }
+};
 
 
 
 
 
 
-code：
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code2：
 /**
  * Definition for a binary tree node.
  * struct TreeNode {

@@ -1,0 +1,144 @@
+给定一个二叉树，返回其按层次遍历的节点值。 （即逐层地，从左到右访问所有节点）。
+
+例如:
+给定二叉树: [3,9,20,null,null,15,7],
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+返回其层次遍历结果：
+
+[
+  [3],
+  [9,20],
+  [15,7]
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路1：
+用队列实现。
+每次记录同一层的元素个数，遍历每一层，将当前层的元素都 pop 出队列，将下一层元素放入队列中。
+
+思路2：
+递归实现。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code1：
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        if(!root) return {};
+        vector<vector<int>> ret;
+        queue<TreeNode*> mq;
+        mq.push(root);
+        int level = 0;
+        while(!mq.empty())
+        {
+            ret.resize(level+1);
+            int level_length = mq.size();
+            for(int i = 0; i < level_length; i++)
+            {
+                TreeNode* p = mq.front();
+                ret[level].push_back(p->val);
+                mq.pop();
+
+                if(p->left != NULL) mq.push(p->left);
+                if(p->right != NULL) mq.push(p->right);
+            }
+            level++;
+        }
+        return ret;
+    }
+};
+
+
+
+
+
+code2：
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void levelOrder(TreeNode* Node, vector<vector<int>>& ret, int depth)
+    {
+        if(!Node) return;
+        if(ret.size() == depth)
+        {
+            ret.resize(depth+1);
+        }
+        ret[depth].push_back(Node->val);
+        if(Node->left) levelOrder(Node->left, ret, depth+1);
+        if(Node->right) levelOrder(Node->right, ret, depth+1);
+    }
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> ret;
+        levelOrder(root, ret, 0);
+        return ret;
+    }
+};

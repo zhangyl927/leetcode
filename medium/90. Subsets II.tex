@@ -1,0 +1,79 @@
+给定一个可能包含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。
+
+说明：解集不能包含重复的子集。
+
+示例:
+
+输入: [1,2,2]
+输出:
+[
+  [2],
+  [1],
+  [1,2,2],
+  [2,2],
+  [1,2],
+  []
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+同 78 题。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code:
+class Solution {
+public:
+    void subsetsHelper(vector<int>& nums, int curIdx, bool taken, vector<vector<int>>& result, vector<int> cur)
+    {
+        if(curIdx == nums.size()) result.push_back(cur);
+        else
+        {
+            subsetsHelper(nums, curIdx+1, false, result, cur);
+            if(taken || nums[curIdx-1]!=nums[curIdx])
+            {
+                cur.push_back(nums[curIdx]);
+                subsetsHelper(nums, curIdx+1, true, result, cur);
+                cur.pop_back();
+            }
+        }
+    }
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        vector<vector<int>> result;
+        if(nums.empty()) return result;
+        sort(nums.begin(), nums.end());
+        vector<int> cur;
+        subsetsHelper(nums, 0, true, result, cur);
+        return result;
+    }
+};

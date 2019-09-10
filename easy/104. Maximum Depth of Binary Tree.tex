@@ -2,7 +2,7 @@
 
 二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。
 
-说明: 叶子节点是指没有子节点的节点。
+说明: 叶子节点是指没有子节点的节点。
 
 示例：
 给定二叉树 [3,9,20,null,null,15,7]，
@@ -12,7 +12,7 @@
   9  20
     /  \
    15   7
-返回它的最大深度 3 。
+返回它的最大深度 3 。
 
 
 
@@ -40,13 +40,61 @@
 
 
 
-思路：
+思路1：
+同 257 思路相同。
+思路2:
 递归思想。
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+code2:
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void maxDepth(TreeNode* Node, int level, vector<int> &depth)
+    {
+        if(!Node) return;
+        level++;
+        if(!Node->left && !Node->right) depth.push_back(level);
+        else
+        {
+            maxDepth(Node->left, level, depth);
+            maxDepth(Node->right, level, depth);
+        }
+        level--;
+    }
+    int maxDepth(TreeNode* root) {
+        if(!root) return 0;
+        int level = 0;
+        vector<int> depth;
+        maxDepth(root, level, depth);
+        sort(depth.begin(), depth.end());
+        return depth.back();
+    }
+};
 
 
 

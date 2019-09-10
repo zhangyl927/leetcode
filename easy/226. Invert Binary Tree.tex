@@ -168,11 +168,10 @@ public:
             TreeNode* temp = node->left;
             node->left = node->right;
             node->right = temp;
+            myQueue.pop();
             
             if(node->left) myQueue.push(node->left);
             if(node->right) myQueue.push(node->right);
-            
-            myQueue.pop();
         }
         return root;
     }

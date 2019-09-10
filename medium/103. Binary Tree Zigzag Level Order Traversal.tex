@@ -36,13 +36,68 @@
 
 
 
+思路1：
+同 102；
 
-
-思路：
+思路2：
 层序遍历将值放入容器中，反转容器中奇数个容器中的值。
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+优化 code：
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> ret;
+        if(!root) return ret;
+        int level = 0;
+        queue<TreeNode*> mq;
+        mq.push(root);
+        while(!mq.empty())
+        {
+            ret.resize(level+1);
+            int level_size = mq.size();
+            for(int i = 0; i < level_size; i++)
+            {
+                TreeNode* p = mq.front();
+                ret[level].push_back(p->val);
+                mq.pop();
+
+                if(p->left) mq.push(p->left);
+                if(p->right) mq.push(p->right);
+            }
+            if(level%2 == 1) reverse(ret[level].begin(), ret[level].end());
+            level++;
+        }
+        return ret;
+    }
+};
 
 
 

@@ -67,7 +67,6 @@
 
 
 
-code：
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -80,12 +79,8 @@ code：
 class Solution {
 public:
     bool hasPathSum(TreeNode* root, int sum) {
-        return search_path(root, sum);
-    }
-    bool search_path(TreeNode* Node, int sum)
-    {
-        if(!Node) return false;
-        if(!Node->left && !Node->right && Node->val == sum) return true;
-        else return search_path(Node->left, sum-Node->val) || search_path(Node->right, sum-Node->val);
+        if(!root) return false;
+        if(!root->left && !root->right) return root->val == sum;
+        return hasPathSum(root->left, sum-root->val) || hasPathSum(root->right, sum-root->val);
     }
 };

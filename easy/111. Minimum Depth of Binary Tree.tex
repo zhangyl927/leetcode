@@ -49,6 +49,7 @@
 
 
 思路：
+257 题思路。
 
 
 
@@ -62,6 +63,51 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+优化 code：
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void minDepth(TreeNode* root, int& level, vector<int>& depth)
+    {
+        if(!root) return;
+        level++;
+        if(!root->left && !root->right) depth.push_back(level);
+        else
+        {
+            minDepth(root->left, level, depth);
+            minDepth(root->right, level, depth);
+        }
+        level--;
+    }
+    int minDepth(TreeNode* root) {
+        if(!root) return 0;
+        int level = 0;
+        vector<int> depth;
+        minDepth(root, level, depth);
+        sort(depth.begin(), depth.end());
+        return depth[0];
+    }
+};
 
 
 
