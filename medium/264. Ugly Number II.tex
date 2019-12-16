@@ -45,7 +45,15 @@
 
 思路：
 动态规划。
-下一个数是前几个数中 某个数的 2 or 3 or 5 的倍数的最小值。
+下一个数是前几个数中 某个数的 2 or 3 or 5 的倍数的最小值。注意可能某个数是2和3的倍数，如6，所以
+if(current == 2*c[i]) i++;
+if(current == 3*c[j]) j++;
+if(current == 5*c[k]) k++;
+这种形式是对的，不要用这种形式：
+if(current == 2*c[i]) i++;
+else if(current == 3*c[j]) j++;
+else if(current == 5*c[k]) k++;
+会造成重复。
 
 
 

@@ -33,7 +33,7 @@
 
 
 
-思路：
+思路一：
 遍历字符串数组，将字符出现的次数保存在 cnt 中。used 中存放字符是否被使用；
 string sb 存放结果。遍历字符串数组，当前字符为 c,
 if c is used，continue；
@@ -41,7 +41,17 @@ else
 	while sb length()>0 && c<sb.back() && count[sb.back()]>0，sb.pop();
 	sb.append(c); used[c] = true;
 
-	
+
+思路二：
+先将 s 存放在数组长度为 26 的 sv 中，统计每个字符出现的次数。
+遍历 s，for(auto c:s)
+		if 返回字符串 res 为空时， 直接 s += c，sv[c-'a']--;
+		else if c 在 res 中，直接将 sv[c-'a']--, continue;
+		else 
+			while ( 判断 c 与 res 末尾的字符 cm 比较，若 c < cm && sv[cm-'a'] > 0)
+				res.pop_back();
+			res += c;
+		sv[c-'a']--;
 
 
 
@@ -58,6 +68,35 @@ else
 
 
 
+
+
+
+
+
+code2：
+class Solution {
+public:
+    string removeDuplicateLetters(string s) {
+        vector<int> sv(26);
+        for(auto i:s) sv[i-'a']++;
+        string res;
+        for(auto c:s) {
+            if(res.find(c) != string::npos) {
+                sv[c-'a']--;
+                continue;
+            }
+            if(res.empty()) res += c;
+            else {
+                while(c < res.back() && sv[res.back()-'a'] > 0) {
+                    res.pop_back();
+                }
+                res += c;
+            }
+            sv[c-'a']--;
+        }
+        return res;
+    }
+};
 
 
 

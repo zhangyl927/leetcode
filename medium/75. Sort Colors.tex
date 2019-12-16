@@ -55,7 +55,23 @@
 
 
 
+update:
+设两个 指针 cfirst 和 clast，idx 从前往后扫描，
+当 nums[idx] == 1 时直接往前移动；
+当 nums[idx] == 0, swap(当前值，0的下一个位置)，并且 idx 往前移动，cfirst 往前移动；
+当 nums[idx] == 2, swap(当前值，2)， idx 保持不变，clast 往后移动。
 
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int size = nums.size(), cfirst = 0, clast = size-1, idx = 0;
+        while (idx <= clast) {
+            if(nums[idx] == 1) idx++;
+            else if(nums[idx] == 0) swap(nums[idx++], nums[cfirst++]);
+            else if(nums[idx] == 2) swap(nums[idx], nums[clast--]); 
+        }
+    }
+};
 
 
 

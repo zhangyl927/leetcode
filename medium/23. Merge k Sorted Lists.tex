@@ -1,0 +1,70 @@
+合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。
+
+示例:
+
+输入:
+[
+  1->4->5,
+  1->3->4,
+  2->6
+]
+输出: 1->1->2->3->4->4->5->6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+思路：
+多路归并问题。
+分治法，堆。
+
+code： （分治法）
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        int sz = lists.size();
+        if(sz == 0) return NULL;
+        else if(sz == 1) return lists[0];
+        else if(sz == 2) return mergeTwoLists(lists[0], lists[1]);
+
+        int mid = sz/2;
+        vector<ListNode*> l1, l2;
+        for (int i = 0; i < mid; ++i) l1.push_back(lists[i]);
+        for (int j = mid; j < sz; ++j) l2.push_back(lists[j]);
+
+        return mergeTwoLists(mergeKLists(l1), mergeKLists(l2));
+    }
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if(l1 == NULL) return l2;
+        else if(l2 == NULL) return l1;
+        else {
+            ListNode *head = NULL;
+            if(l1->val <= l2->val) {
+                head = l1;
+                head->next = mergeTwoLists(l1->next, l2);
+            } else {
+                head = l2;
+                head->next = mergeTwoLists(l1, l2->next);
+            }
+            return head;
+        }
+    }
+};
